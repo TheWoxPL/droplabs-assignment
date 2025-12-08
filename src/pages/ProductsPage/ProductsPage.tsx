@@ -23,6 +23,32 @@ export const ProductsPage = () => {
     fetchData();
   }, []);
 
+  const handleSortChange = (sortOption: string) => {
+    const sortedProducts = [...products];
+
+    switch (sortOption) {
+      case 'ASC_TITLE':
+        sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'DESC_TITLE':
+        sortedProducts.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case 'ASC_PRICE':
+        sortedProducts.sort((a, b) => a.price - b.price);
+        break;
+      case 'DESC_PRICE':
+        sortedProducts.sort((a, b) => b.price - a.price);
+        break;
+      case 'DEFAULT':
+        sortedProducts.sort(() => Math.random() - 0.5);
+        break;
+      default:
+        break;
+    }
+
+    setProducts(sortedProducts);
+  };
+
   if (isLoading) {
     return (
       <>
@@ -37,7 +63,25 @@ export const ProductsPage = () => {
       <Navbar />
       <main className={styles.container}>
         <h1>Our Products</h1>
-        <div className={styles.productsGrid}>
+        <div>
+          <label htmlFor="sort-select">
+            Sort by: &nbsp;
+            <select
+              id="sort-select"
+              onChange={(e) => {
+                handleSortChange(e.target.value);
+              }}
+              defaultValue={'DEFAULT'}
+            >
+              <option value="DEFAULT">Default</option>
+              <option value="ASC_TITLE">Title (A-Z)</option>
+              <option value="DESC_TITLE">Title (Z-A)</option>
+              <option value="ASC_PRICE">Price (Low to High)</option>
+              <option value="DESC_PRICE">Price (High to Low)</option>
+            </select>
+          </label>
+        </div>
+        <div className={styles.productsContainer}>
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
