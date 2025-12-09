@@ -17,7 +17,6 @@ export const CartItem = ({ item }: CartItemProps) => {
         <button onClick={() => decreaseQuantity(item)}>-</button>
         <span>&ensp;{item.quantity} qty</span>
       </div>
-      <span>{(item.quantity * item.price).toFixed(2)} PLN</span>
       <button className={styles.remove} onClick={() => removeItem(item)}>
         Remove
       </button>
