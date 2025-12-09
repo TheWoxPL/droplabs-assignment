@@ -39,7 +39,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const cartBadge = (): number => {
-    return cart.length;
+    return cart.reduce((sum, item) => sum + item.quantity, 0);
   };
 
   return (

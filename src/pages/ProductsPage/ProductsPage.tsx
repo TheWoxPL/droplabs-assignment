@@ -24,29 +24,29 @@ export const ProductsPage = () => {
   }, []);
 
   const handleSortChange = (sortOption: string) => {
-    const sortedProducts = [...products];
-
     switch (sortOption) {
       case 'ASC_TITLE':
-        sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
+        setProducts(
+          [...products].sort((a, b) => a.title.localeCompare(b.title))
+        );
         break;
       case 'DESC_TITLE':
-        sortedProducts.sort((a, b) => b.title.localeCompare(a.title));
+        setProducts(
+          [...products].sort((a, b) => b.title.localeCompare(a.title))
+        );
         break;
       case 'ASC_PRICE':
-        sortedProducts.sort((a, b) => a.price - b.price);
+        setProducts([...products].sort((a, b) => a.price - b.price));
         break;
       case 'DESC_PRICE':
-        sortedProducts.sort((a, b) => b.price - a.price);
+        setProducts([...products].sort((a, b) => b.price - a.price));
         break;
       case 'DEFAULT':
-        sortedProducts.sort(() => Math.random() - 0.5);
+        setProducts([...products].sort(() => Math.random() - 0.5));
         break;
       default:
         break;
     }
-
-    setProducts(sortedProducts);
   };
 
   if (isLoading) {
