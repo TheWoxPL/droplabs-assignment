@@ -1,0 +1,58 @@
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  flex-direction: column;
+
+  > div:first-child {
+    flex: 1;
+    font-size: 0.9rem;
+    color: #333;
+  }
+
+  > div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  button {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+  }
+
+  span {
+    font-size: 0.9rem;
+    min-width: 20px;
+    text-align: center;
+
+    &:last-child {
+      font-weight: bold;
+      margin-left: 0.5rem;
+    }
+  }
+
+  .remove {
+    color: #ff4444;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    width: auto;
+    border: red 2px solid;
+
+    &:hover {
+      color: #cc0000;
+    }
+  }
+}
