@@ -4,7 +4,6 @@ import { createContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 
 interface CartContextType {
-  test: () => void;
   addToCart: (product: Product) => void;
   cartBadge: () => number;
   increaseQuantity: (cartItem: CartItem) => void;
@@ -16,13 +15,13 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | null>(null);
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const test = () => {
-    console.log('test');
-  };
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
   useEffect(() => {
-    console.log(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (product: Product): void => {
@@ -74,7 +73,6 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
   return (
     <CartContext.Provider
       value={{
-        test,
         cart,
         addToCart,
         cartBadge,
