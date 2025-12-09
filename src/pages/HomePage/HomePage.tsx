@@ -1,12 +1,13 @@
 import { Navbar, ProductCard } from '@/components/';
 import type { Product } from '@/types';
 import { useEffect, useState } from 'react';
-import { CallApi } from '@/utils';
+import { CallApi, getErrorMessage } from '@/utils';
 import styles from './HomePage.module.scss';
 
 export const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [sampleProduct, setSampleProduct] = useState<Product>();
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,13 +15,24 @@ export const HomePage = () => {
         const products: Product[] = await CallApi.get<Product[]>('/products');
         setSampleProduct(products[Math.floor(Math.random() * products.length)]);
       } catch (error) {
-        console.error('Error fetching product:', error);
+        const errorMessage = getErrorMessage(error);
+        console.error('Error fetching products:', errorMessage);
+        setFetchError(errorMessage);
       } finally {
         setIsLoading(false);
       }
     };
     fetchData();
   }, []);
+
+  if (fetchError) {
+    return (
+      <>
+        <Navbar />
+        <p>Error: {fetchError}</p>
+      </>
+    );
+  }
 
   return (
     <div className={styles.container}>

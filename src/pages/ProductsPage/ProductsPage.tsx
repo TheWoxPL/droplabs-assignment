@@ -1,13 +1,14 @@
 import { Navbar } from '@/components';
 import { ProductCard } from '@/components/';
 import type { Product } from '@/types';
-import { CallApi } from '@/utils';
+import { CallApi, getErrorMessage } from '@/utils';
 import { useEffect, useState } from 'react';
 import styles from './ProductsPage.module.scss';
 
 export const ProductsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +16,9 @@ export const ProductsPage = () => {
         const products: Product[] = await CallApi.get<Product[]>('/products');
         setProducts(products);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        const errorMessage = getErrorMessage(error);
+        console.error('Error fetching products:', errorMessage);
+        setFetchError(errorMessage);
       } finally {
         setIsLoading(false);
       }
@@ -48,6 +51,15 @@ export const ProductsPage = () => {
         break;
     }
   };
+
+  if (fetchError) {
+    return (
+      <>
+        <Navbar />
+        <p>Error: {fetchError}</p>
+      </>
+    );
+  }
 
   if (isLoading) {
     return (
