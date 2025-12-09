@@ -1,11 +1,14 @@
 import type { Product } from '@/types';
 import styles from './ProductCard.module.scss';
+import { useCart } from '@/hooks/useCart';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
+  const { addToCart } = useCart();
+
   return (
     <article className={styles.card}>
       <div className={styles.imageContainer}>
@@ -20,6 +23,12 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </div>
         <p className={styles.price}>{product.price.toFixed(2)} PLN</p>
       </div>
+      <button
+        className={styles.addToCartButton}
+        onClick={() => addToCart(product)}
+      >
+        Add to cart
+      </button>
     </article>
   );
 };
